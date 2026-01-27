@@ -90,21 +90,25 @@ bool cau3(DanhSach danhsach, int madonX) {
 	if (madonX == NULL || danhsach.maDondau == NULL)
 		return false;
 	DonHang* cacdonhang = danhsach.maDondau;
-	while (cacdonhang != NULL || cacdonhang->maDon != madonX)
+	while (cacdonhang != NULL && cacdonhang->maDon != madonX) {
 		cacdonhang = cacdonhang->maDontiepTheo;
-
+	}
+	if (cacdonhang == NULL)
+		return false;
+	return true;
 }
 
 int main() {
 	DanhSach danhsach;
 	Init(danhsach);
-	cau1(danhsach, taoDonHang(1));
-	cau2(danhsach, taoDonHang(2));
-	/*cout << danhsach.maDondau->maDon << endl;
-	cout << danhsach.maDoncuoi->maDon << endl;
-	cout << danhsach.maDondau->maDontiepTheo->maDon << endl;
-	cout << danhsach.maDondau->maDontiepTheo->maDon;*/
-
+	cau2(danhsach, taoDonHang(1));
+	cau1(danhsach, taoDonHang(2));
+	cau1(danhsach, taoDonHang(3));
+	if (cau3(danhsach, 3))
+		cout << 1;
+	else {
+		cout << 2;
+	}
 	return 0;
 }
 
