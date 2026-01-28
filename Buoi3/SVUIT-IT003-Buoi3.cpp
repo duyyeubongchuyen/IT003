@@ -34,11 +34,13 @@ void bai1(vector<int> array) {
 
 //4.Hủy đơn : Khách đổi ý không mua nữa, cần xóa đơn mã K ra khỏi danh sách(RemoveNode).
 
-//5.Sắp xếp kho : Cuối ngày, nhân viên cần sắp xếp lại các đơn hàng theo thứ tự mã số tăng dần để dễ tìm(SortList).
+//5.In danh sách, Hủy danh sách
 
-//6.Chèn đơn sót : Sau khi sắp xếp, phát hiện sót một đơn, cần chèn vào đúng vị trí để không làm hỏng thứ tự(InsertSorted).
+//6.Sắp xếp kho : Cuối ngày, nhân viên cần sắp xếp lại các đơn hàng theo thứ tự mã số tăng dần để dễ tìm(SortList).
 
-//7.Chốt ca : Xử lý xong hết, xóa sạch danh sách để nghỉ ngơi(DestroyList).
+//7.Chèn đơn sót : Sau khi sắp xếp, phát hiện sót một đơn, cần chèn vào đúng vị trí để không làm hỏng thứ tự(InsertSorted).
+
+//8.Chốt ca : Xử lý xong hết, xóa sạch danh sách để nghỉ ngơi(DestroyList).
 
 struct DonHang {
 	int maDon;
@@ -118,6 +120,26 @@ void cau4(DanhSach& danhsachmoi, int madonK) {
 		left_temp = left_temp->maDontiepTheo;
 		right_temp = right_temp->maDontiepTheo;
 	}
+	delete right_temp;
+	delete left_temp;
+}
+
+void InDanhsach(DanhSach danhsach) {
+	DonHang* donhang = danhsach.maDondau;
+	while (donhang != NULL) {
+		cout << donhang->maDon << " ";
+		donhang = donhang->maDontiepTheo;
+	}
+	delete donhang;
+}
+
+void HuyDanhsach(DanhSach danhsach) {
+	DonHang* donhang;
+	while (danhsach.maDondau != NULL) {
+		donhang = danhsach.maDondau;
+		danhsach.maDondau = danhsach.maDondau->maDontiepTheo;
+		delete donhang;
+	}
 }
 
 int main() {
@@ -142,7 +164,11 @@ int main() {
 	cau4(danhsach, 3);
 	cout << danhsach.maDoncuoi->maDon;
 
+	/*HuyDanhsach(danhsach);*/
+
 	//Câu 5 
+	InDanhsach(danhsach);
+
 
 
 	return 0;
