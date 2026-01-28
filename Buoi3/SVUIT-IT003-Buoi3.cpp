@@ -98,17 +98,53 @@ bool cau3(DanhSach danhsach, int madonX) {
 	return true;
 }
 
+void cau4(DanhSach& danhsachmoi, int madonK) {
+	if (danhsachmoi.maDondau == NULL)
+		return;
+	if (danhsachmoi.maDondau->maDon == madonK) {   // nếu đơn hàng thứ K là đơn hàng cuối 
+		danhsachmoi.maDondau = danhsachmoi.maDondau->maDontiepTheo;
+		if (danhsachmoi.maDondau == NULL) danhsachmoi.maDoncuoi == NULL;
+		return;
+	}
+	DonHang* right_temp = danhsachmoi.maDondau->maDontiepTheo;
+	DonHang* left_temp = danhsachmoi.maDondau;
+	while (right_temp != NULL) {
+		if (right_temp->maDon == madonK) {     // gặp đơn hàng thứ K thì xóa 
+			left_temp->maDontiepTheo = right_temp->maDontiepTheo;
+			if (right_temp->maDontiepTheo == NULL) {   // nếu đơn hàng thứ K là đơn hàng cuối 
+				danhsachmoi.maDoncuoi = left_temp;
+			}
+		}
+		left_temp = left_temp->maDontiepTheo;
+		right_temp = right_temp->maDontiepTheo;
+	}
+}
+
 int main() {
 	DanhSach danhsach;
 	Init(danhsach);
+
+	//Câu 1 2
+
 	cau2(danhsach, taoDonHang(1));
 	cau1(danhsach, taoDonHang(2));
 	cau1(danhsach, taoDonHang(3));
+
+	//Câu 3
+
 	if (cau3(danhsach, 3))
 		cout << 1;
 	else {
 		cout << 2;
 	}
+
+	//Câu 4
+	cau4(danhsach, 3);
+	cout << danhsach.maDoncuoi->maDon;
+
+	//Câu 5 
+
+
 	return 0;
 }
 
