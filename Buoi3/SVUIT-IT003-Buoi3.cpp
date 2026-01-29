@@ -37,6 +37,9 @@ void bai1(vector<int> array) {
 //5.In danh sách, Hủy danh sách
 
 //6.Sắp xếp kho : Cuối ngày, nhân viên cần sắp xếp lại các đơn hàng theo thứ tự mã số tăng dần để dễ tìm(SortList).
+// a) Quick Sort
+// b) Merge Sort
+// c) Radix Sort
 
 //7.Chèn đơn sót : Sau khi sắp xếp, phát hiện sót một đơn, cần chèn vào đúng vị trí để không làm hỏng thứ tự(InsertSorted).
 
@@ -142,6 +145,25 @@ void HuyDanhsach(DanhSach danhsach) {
 	}
 }
 
+void connectList(DanhSach& danhsachmoi, DanhSach& danhsachmot, DanhSach& danhsachhai) {
+	if (danhsachhai.maDondau == NULL) {
+		danhsachmot = danhsachhai;
+	}
+	else {
+		if (danhsachmot.maDondau== NULL) {
+			danhsachmoi = danhsachhai;
+		}
+		else {
+			danhsachmot.maDoncuoi->maDontiepTheo = danhsachhai.maDondau;
+			danhsachmot.maDoncuoi = danhsachhai.maDoncuoi;
+			danhsachmoi = danhsachmot;
+		}
+	}
+}
+
+void cau6a(DanhSach& danhsach) {																																					
+}
+
 int main() {
 	DanhSach danhsach;
 	Init(danhsach);
@@ -149,9 +171,8 @@ int main() {
 	//Câu 1 2
 
 	cau2(danhsach, taoDonHang(1));
-	cau1(danhsach, taoDonHang(2));
-	cau1(danhsach, taoDonHang(3));
-
+	cau1(danhsach, taoDonHang(6));
+	cau1(danhsach, taoDonHang(7));
 	//Câu 3
 
 	if (cau3(danhsach, 3))
@@ -161,15 +182,27 @@ int main() {
 	}
 
 	//Câu 4
+
 	cau4(danhsach, 3);
 	cout << danhsach.maDoncuoi->maDon;
 
-	/*HuyDanhsach(danhsach);*/
+	HuyDanhsach(danhsach);
 
 	//Câu 5 
+
 	InDanhsach(danhsach);
 
+	//kết nối list
 
+	DanhSach danhsachhai, danhsachmoi;
+	Init(danhsachhai);
+	Init(danhsachmoi);
+	cau1(danhsachhai, taoDonHang(1));
+	cau1(danhsachhai, taoDonHang(2));
+	cau1(danhsachhai, taoDonHang(4));
+
+	connectList(danhsachmoi, danhsach, danhsachhai);
+	InDanhsach(danhsachmoi);
 
 	return 0;
 }
