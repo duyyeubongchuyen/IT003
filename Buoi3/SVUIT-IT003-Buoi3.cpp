@@ -194,10 +194,20 @@ void Merge(DanhSach& ketqua, DanhSach danhsachmot, DanhSach danhsachhai) {
 	Init(ketqua);
 	while (danhsachmot.maDondau != NULL && danhsachhai.maDondau != NULL) {
 		if (danhsachmot.maDondau->maDon < danhsachhai.maDondau->maDon) {
-			DonHang* donhangdau1 = danhsachmot.maDondau;
-			danhsach
+			DonHang* temp = danhsachmot.maDondau->maDontiepTheo;   //Tạo temp nối tới pNext
+			danhsachmot.maDondau->maDontiepTheo = NULL;    //pNext = NULL
+			cau1(ketqua, danhsachmot.maDondau); // thêm pHead vào ketqua
+			danhsachmot.maDondau = temp;  // cập nhật pHead mới
+		}
+		else {
+			DonHang* temp = danhsachhai.maDondau->maDontiepTheo;
+			danhsachhai.maDondau->maDontiepTheo = NULL;
+			cau1(ketqua, danhsachhai.maDondau);
+			danhsachhai.maDondau = temp;
 		}
 	}
+	if (danhsachmot.maDondau != NULL) connectList(ketqua, ketqua, danhsachmot);
+	if (danhsachhai.maDondau != NULL) connectList(ketqua, ketqua, danhsachhai);
 }
 
 int main() {
@@ -207,8 +217,8 @@ int main() {
 	//Câu 1 2
 
 	cau2(danhsach, taoDonHang(1));
-	cau1(danhsach, taoDonHang(6));
 	cau1(danhsach, taoDonHang(2));
+	cau1(danhsach, taoDonHang(6));
 
 	//Câu 3
 
@@ -240,9 +250,19 @@ int main() {
 	InDanhsach(danhsachmoi);*/
 
 	//Câu 6a
-	cau6a(danhsach);
-	InDanhsach(danhsach);
+	/*cau6a(danhsach);
+	InDanhsach(danhsach);*/
 
+	//Câu 6b
+	DanhSach danhsach2;
+	DanhSach ketqua;
+	Init(danhsach2);
+	Init(ketqua);
+	cau2(danhsach2, taoDonHang(9));
+	cau1(danhsach2, taoDonHang(10));
+	cau1(danhsach2, taoDonHang(11));
+	Merge(ketqua, danhsach, danhsach2);
+	InDanhsach(ketqua);
 	return 0;
 }
 
