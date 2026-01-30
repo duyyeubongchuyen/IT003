@@ -146,22 +146,58 @@ void HuyDanhsach(DanhSach danhsach) {
 }
 
 void connectList(DanhSach& danhsachmoi, DanhSach& danhsachmot, DanhSach& danhsachhai) {
-	if (danhsachhai.maDondau == NULL) {
-		danhsachmot = danhsachhai;
+	if (danhsachmot.maDondau == NULL) {
+		danhsachmoi = danhsachhai;
+	}
+	else if (danhsachhai.maDondau == NULL) {
+		danhsachmoi = danhsachmot;
 	}
 	else {
-		if (danhsachmot.maDondau== NULL) {
-			danhsachmoi = danhsachhai;
-		}
-		else {
-			danhsachmot.maDoncuoi->maDontiepTheo = danhsachhai.maDondau;
-			danhsachmot.maDoncuoi = danhsachhai.maDoncuoi;
-			danhsachmoi = danhsachmot;
-		}
+		danhsachmot.maDoncuoi->maDontiepTheo = danhsachhai.maDondau;
+		danhsachmoi.maDondau = danhsachmot.maDondau;
+		danhsachmoi.maDoncuoi = danhsachhai.maDoncuoi;
+		danhsachmoi.maDoncuoi->maDontiepTheo = NULL;
 	}
 }
 
-void cau6a(DanhSach& danhsach) {																																					
+void cau6a(DanhSach& danhsachmoi) {
+	if (danhsachmoi.maDondau == danhsachmoi.maDoncuoi) return;
+	DanhSach danhsach1;
+	DanhSach danhsach2;
+	Init(danhsach1);
+	Init(danhsach2);
+	DonHang* pivot = danhsachmoi.maDondau;
+	DonHang* temp = pivot->maDontiepTheo;
+	pivot->maDontiepTheo = NULL;
+
+	while (temp != NULL) {
+		DonHang* next = temp->maDontiepTheo;
+		temp->maDontiepTheo = NULL;
+		if (temp->maDon >= pivot->maDon) {
+			cau1(danhsach1, temp);
+		}
+		else {
+			cau1(danhsach2, temp);
+		}
+		temp = next;
+	}
+	cau6a(danhsach1);
+	cau6a(danhsach2);
+	DanhSach danhsachtemp;
+	Init(danhsachtemp);
+	cau1(danhsachtemp, pivot);
+	connectList(danhsachmoi, danhsach2,danhsachtemp);
+	connectList(danhsachmoi, danhsachmoi,danhsach1);
+}
+
+void Merge(DanhSach& ketqua, DanhSach danhsachmot, DanhSach danhsachhai) {
+	Init(ketqua);
+	while (danhsachmot.maDondau != NULL && danhsachhai.maDondau != NULL) {
+		if (danhsachmot.maDondau->maDon < danhsachhai.maDondau->maDon) {
+			DonHang* donhangdau1 = danhsachmot.maDondau;
+			danhsach
+		}
+	}
 }
 
 int main() {
@@ -172,37 +208,40 @@ int main() {
 
 	cau2(danhsach, taoDonHang(1));
 	cau1(danhsach, taoDonHang(6));
-	cau1(danhsach, taoDonHang(7));
+	cau1(danhsach, taoDonHang(2));
+
 	//Câu 3
 
-	if (cau3(danhsach, 3))
+	/*if (cau3(danhsach, 3))
 		cout << 1;
 	else {
 		cout << 2;
-	}
+	}*/
 
 	//Câu 4
 
-	cau4(danhsach, 3);
+	/*cau4(danhsach, 3);
 	cout << danhsach.maDoncuoi->maDon;
-
-	HuyDanhsach(danhsach);
+	HuyDanhsach(danhsach);*/
 
 	//Câu 5 
 
-	InDanhsach(danhsach);
+	/*InDanhsach(danhsach);*/
 
 	//kết nối list
 
-	DanhSach danhsachhai, danhsachmoi;
+	/*DanhSach danhsachhai, danhsachmoi;
 	Init(danhsachhai);
 	Init(danhsachmoi);
 	cau1(danhsachhai, taoDonHang(1));
 	cau1(danhsachhai, taoDonHang(2));
 	cau1(danhsachhai, taoDonHang(4));
-
 	connectList(danhsachmoi, danhsach, danhsachhai);
-	InDanhsach(danhsachmoi);
+	InDanhsach(danhsachmoi);*/
+
+	//Câu 6a
+	cau6a(danhsach);
+	InDanhsach(danhsach);
 
 	return 0;
 }
