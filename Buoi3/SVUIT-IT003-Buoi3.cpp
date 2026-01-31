@@ -210,6 +210,28 @@ void Merge(DanhSach& ketqua, DanhSach danhsachmot, DanhSach danhsachhai) {
 	if (danhsachhai.maDondau != NULL) connectList(ketqua, ketqua, danhsachhai);
 }
 
+void cau6b(DanhSach& danhsach) {
+	if (danhsach.maDondau->maDontiepTheo == NULL||danhsach.maDondau==NULL)
+		return;
+	DonHang* slow = danhsach.maDondau;
+	DonHang* fast = danhsach.maDondau->maDontiepTheo;
+
+	while (fast != NULL && fast->maDontiepTheo != NULL) {
+		fast = fast->maDontiepTheo->maDontiepTheo;
+		slow = slow->maDontiepTheo;
+	}
+	DanhSach danhsachmot,danhsachhai;
+	danhsachmot.maDondau = danhsach.maDondau;
+	danhsachmot.maDoncuoi = slow;
+	danhsachhai.maDondau = slow->maDontiepTheo;
+	danhsachhai.maDoncuoi = danhsach.maDoncuoi;
+	danhsachmot.maDoncuoi->maDontiepTheo = NULL;
+	danhsachhai.maDoncuoi->maDontiepTheo = NULL;
+	cau6b(danhsachmot);
+	cau6b(danhsachhai);
+	Merge(danhsach, danhsachmot, danhsachhai);
+}
+
 int main() {
 	DanhSach danhsach;
 	Init(danhsach);
@@ -219,6 +241,11 @@ int main() {
 	cau2(danhsach, taoDonHang(1));
 	cau1(danhsach, taoDonHang(2));
 	cau1(danhsach, taoDonHang(6));
+	cau1(danhsach, taoDonHang(7));
+	cau1(danhsach, taoDonHang(3));
+	cau1(danhsach, taoDonHang(5));
+	InDanhsach(danhsach);
+	cout << endl;
 
 	//Câu 3
 
@@ -254,7 +281,7 @@ int main() {
 	InDanhsach(danhsach);*/
 
 	//Câu 6b
-	DanhSach danhsach2;
+	/*DanhSach danhsach2;
 	DanhSach ketqua;
 	Init(danhsach2);
 	Init(ketqua);
@@ -262,7 +289,10 @@ int main() {
 	cau1(danhsach2, taoDonHang(10));
 	cau1(danhsach2, taoDonHang(11));
 	Merge(ketqua, danhsach, danhsach2);
-	InDanhsach(ketqua);
+	InDanhsach(ketqua);*/
+	cau6b(danhsach);
+	InDanhsach(danhsach);
+
 	return 0;
 }
 
