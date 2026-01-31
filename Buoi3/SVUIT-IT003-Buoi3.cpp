@@ -232,6 +232,42 @@ void cau6b(DanhSach& danhsach) {
 	Merge(danhsach, danhsachmot, danhsachhai);
 }
 
+void cau6c(DanhSach& danhsach) {
+	DonHang* index = danhsach.maDondau->maDontiepTheo;
+	int max = danhsach.maDondau->maDon;
+	while (index != NULL) {
+		if (max < index->maDon)
+			max = index->maDon;
+		index = index->maDontiepTheo;
+	}
+	for (int exp = 1; exp < max;exp*=10) {
+		DanhSach bucket[10];
+		for (int i = 0; i < 10; i++)
+			Init(bucket[i]);
+		DonHang* temp = danhsach.maDondau;
+		while (temp != NULL) {
+			int index = (temp->maDon / exp) % 10;
+			DonHang* donhang = temp->maDontiepTheo;
+			temp->maDontiepTheo = NULL;
+			cau1(bucket[index], temp);
+			temp = donhang;
+		}
+		Init(danhsach);
+		for (int i = 0; i < 10; i++) {
+			if (bucket[i].maDondau != NULL) {
+				if (danhsach.maDondau == NULL) {
+					danhsach = bucket[i];
+				}
+				else {
+					danhsach.maDoncuoi->maDontiepTheo = bucket[i].maDondau;
+					danhsach.maDoncuoi = bucket[i].maDoncuoi;
+				}
+			}
+		}
+		if (danhsach.maDoncuoi != NULL) danhsach.maDoncuoi->maDontiepTheo = NULL;
+	}
+}
+
 int main() {
 	DanhSach danhsach;
 	Init(danhsach);
@@ -241,7 +277,7 @@ int main() {
 	cau2(danhsach, taoDonHang(1));
 	cau1(danhsach, taoDonHang(2));
 	cau1(danhsach, taoDonHang(6));
-	cau1(danhsach, taoDonHang(7));
+	cau1(danhsach, taoDonHang(11));
 	cau1(danhsach, taoDonHang(3));
 	cau1(danhsach, taoDonHang(5));
 	InDanhsach(danhsach);
@@ -249,39 +285,41 @@ int main() {
 
 	//Câu 3
 
-	/*if (cau3(danhsach, 3))
+	if (cau3(danhsach, 3))
 		cout << 1;
 	else {
 		cout << 2;
-	}*/
+	}
 
 	//Câu 4
 
-	/*cau4(danhsach, 3);
+	cau4(danhsach, 3);
 	cout << danhsach.maDoncuoi->maDon;
-	HuyDanhsach(danhsach);*/
+	HuyDanhsach(danhsach);
 
 	//Câu 5 
 
-	/*InDanhsach(danhsach);*/
+	InDanhsach(danhsach);
 
 	//kết nối list
 
-	/*DanhSach danhsachhai, danhsachmoi;
+	DanhSach danhsachhai, danhsachmoi;
 	Init(danhsachhai);
 	Init(danhsachmoi);
 	cau1(danhsachhai, taoDonHang(1));
 	cau1(danhsachhai, taoDonHang(2));
 	cau1(danhsachhai, taoDonHang(4));
 	connectList(danhsachmoi, danhsach, danhsachhai);
-	InDanhsach(danhsachmoi);*/
+	InDanhsach(danhsachmoi);
 
 	//Câu 6a
-	/*cau6a(danhsach);
-	InDanhsach(danhsach);*/
+
+	cau6a(danhsach);
+	InDanhsach(danhsach);
 
 	//Câu 6b
-	/*DanhSach danhsach2;
+
+	DanhSach danhsach2;
 	DanhSach ketqua;
 	Init(danhsach2);
 	Init(ketqua);
@@ -289,8 +327,13 @@ int main() {
 	cau1(danhsach2, taoDonHang(10));
 	cau1(danhsach2, taoDonHang(11));
 	Merge(ketqua, danhsach, danhsach2);
-	InDanhsach(ketqua);*/
+	InDanhsach(ketqua);
 	cau6b(danhsach);
+	InDanhsach(danhsach);
+	
+	//Câu 6c
+
+	cau6c(danhsach);
 	InDanhsach(danhsach);
 
 	return 0;
