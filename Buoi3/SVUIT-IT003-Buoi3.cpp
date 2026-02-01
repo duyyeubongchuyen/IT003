@@ -268,6 +268,39 @@ void cau6c(DanhSach& danhsach) {
 	}
 }
 
+void cau7(DanhSach& l) {
+	if (l.maDondau == NULL || l.maDondau == l.maDoncuoi) return;
+
+	DonHang* danhSachDaSapXep = NULL;
+	DonHang* hienTai = l.maDondau;
+
+	while (hienTai != NULL) {
+		DonHang* tiepTheo = hienTai->maDontiepTheo;
+
+		if (danhSachDaSapXep == NULL || danhSachDaSapXep->maDon >= hienTai->maDon) {
+			hienTai->maDontiepTheo = danhSachDaSapXep;
+			danhSachDaSapXep = hienTai;
+		}
+		else {
+			DonHang* temp = danhSachDaSapXep;
+			while (temp->maDontiepTheo != NULL && temp->maDontiepTheo->maDon < hienTai->maDon) {
+				temp = temp->maDontiepTheo;
+			}
+			hienTai->maDontiepTheo = temp->maDontiepTheo;
+			temp->maDontiepTheo = hienTai;
+		}
+		hienTai = tiepTheo;
+	}
+
+	l.maDondau = danhSachDaSapXep;
+
+	DonHang* tempCuoi = l.maDondau;
+	while (tempCuoi != NULL && tempCuoi->maDontiepTheo != NULL) {
+		tempCuoi = tempCuoi->maDontiepTheo;
+	}
+	l.maDoncuoi = tempCuoi;
+}
+
 int main() {
 	DanhSach danhsach;
 	Init(danhsach);
