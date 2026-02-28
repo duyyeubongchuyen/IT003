@@ -49,13 +49,45 @@ void printArray(int a[], int size) {
 	for (int i = 0; i < size; i++) cout << a[i] << " ";
 }
 
+//BÀI 1 – Insertion Sort có ràng buộc(sắp xếp từng đoạn)
+//🔹 Mô tả
+//
+//Cho mảng số nguyên a[0…n - 1] và một số nguyên k.
+//
+//Yêu cầu :
+//
+//Chỉ được phép dùng Insertion Sort
+//
+//Mỗi lần chèn, chỉ được dịch chuyển tối đa k phần tử
+//
+//Nếu không thể sắp xếp toàn bộ mảng thì in ra "IMPOSSIBLE"
+
+bool bai1(int a[], int size,int k) {
+	for (int i = 1; i < size; i++) {
+		int j = i - 1;
+		int key = a[i];
+		int count = 0;
+		while (j >= 0 && (a[j] > key)) {
+			count++;
+			a[j + 1] = a[j];
+			j--;
+			if (count > k) {
+				return false;
+			}
+		}
+		a[j + 1] = key;
+	}
+	return true;
+}
+
 int main() {
 	int a[] = { 9,10,0,0,3,2 };
 	printArray(a, 6);
 	cout << endl;
 	/*selectionSort(a, 6);
 	printArray(a, 6);*/
-	insertionSortLegit(a, 6);
+	/*insertionSortLegit(a, 6);*/
+	cout << bai1(a, 6, 2) << endl;
 	printArray(a, 6);
 }
 
