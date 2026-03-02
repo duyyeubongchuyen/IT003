@@ -28,11 +28,35 @@ void printArray(int a[], int size) {
 	for (int i = 0; i < size; i++) cout << a[i] << " ";
 }
 
+void countSort(int arr[], int n, int exp)
+{
+	int output[MAX+1];
+	int i, count[10] = { 0 };
+	for (i = 0; i < n; i++)
+		count[(arr[i] / exp) % 10]++;
+	for (i = 1; i < 10; i++)
+		count[i] += count[i - 1];
+	for (i = n - 1; i >= 0; i--) {
+		output[count[(arr[i] / exp) % 10] - 1] = arr[i];
+		count[(arr[i] / exp) % 10]--;
+	}
+	for (i = 0; i < n; i++)
+		arr[i] = output[i];
+}
+
+
+void radixSort(int a[], int size) {
+	int max = findMax(a, size);
+	for (int exp = 1; max / exp > 0; exp*=10) 
+		countSort(a, size, exp);
+}
+
 int main() {
 	int a[7] = { 2,1,0,9,10,0,2 };
 	printArray(a, 7);
 	cout << endl;
-	countingSort(a, 7);
+	/*countingSort(a, 7);*/
+	radixSort(a, 7);
 	printArray(a, 7);
 	return 0;
 }
