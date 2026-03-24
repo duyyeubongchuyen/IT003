@@ -12,7 +12,7 @@ struct PRODUCT {
 vector<string> flashSaleFinder(vector<PRODUCT> products, unsigned int budget) {
 	vector<string> res;
 	for (int i = 0; i < products.size(); i++) {
-		if (products[i].price <= budget) res.push_back(products[i].name);
+		if (products[i].price < budget) res.push_back(products[i].name);
 	}
 	return res;
 }
